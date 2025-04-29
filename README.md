@@ -1,8 +1,8 @@
-# MEMS_sensor_failure_analysis_for_motor_n_turbine_drive
+## MEMS_sensor_failure_analysis_for_motor_n_turbine_drive
 This script performs data analysis and visualization for vibration (VIB_LAT), shock (SHK_LAT), and nitrogen flow rate (N2_RATE) data from multiple jobs. The jobs are categorized into failed jobs and intact jobs, and further grouped into motor and turbine categories. The script processes the data, performs activity-wise analysis, and generates various plots to visualize the results.
 
 Key Steps in the Script
-Importing Libraries:
+### Importing Libraries:
 
 Libraries such as pandas, matplotlib, numpy, and re are imported for data manipulation, visualization, and regular expression matching.
 Loading and Categorizing Data:
@@ -13,7 +13,7 @@ Data Cleaning and Indexing:
 
 The data is cleaned by converting columns to numeric values and handling invalid entries.
 Time columns are converted to datetime format and set as the index.
-Partitioning Data:
+### Partitioning Data:
 
 The data is partitioned into activities (e.g., "On Bottom Drilling", "Pull Test") using a partitioning function.
 Jobs that cannot be partitioned are excluded from further analysis.
@@ -27,7 +27,7 @@ Vibration and shock data are grouped into predefined ranges (e.g., 0-10, 10-15) 
 Separate counts are maintained for motor and turbine jobs.
 Visualization:
 
-Bar Plots:
+### Bar Plots:
 Vibration and shock counts for different ranges are plotted as bar charts.
 Percentage distributions of vibration and shock levels are also visualized.
 Scatter Plots:
@@ -36,7 +36,7 @@ Box Plots:
 Box plots are generated for N2_RATE, VIB_LAT, and SHK_LAT for failed and intact jobs.
 Histograms:
 Histograms are plotted for vibration and shock data across all jobs.
-Whole Run Analysis:
+### Whole Run Analysis:
 
 Vibration and shock data for the entire run are combined for failed and intact jobs.
 Histograms and box plots are generated to visualize the overall distribution.
@@ -44,7 +44,7 @@ Key Features of the Script
 Categorization:
 
 Jobs are categorized into failed and intact jobs, and further into motor and turbine groups.
-Activity-Wise Analysis:
+### Activity-Wise Analysis:
 
 The script performs detailed analysis for specific activities (e.g., "Pull Test", "Wiper Trip") to understand vibration and shock behavior during these activities.
 Threshold Filtering:
@@ -53,7 +53,7 @@ Data is filtered based on thresholds to exclude invalid or extreme values (e.g.,
 Statistical Analysis:
 
 Mean, median, and max values are calculated for vibration and shock data for each activity and job.
-Visualization:
+#### Visualization:
 
 The script generates a variety of plots (bar, scatter, box, and histogram) to visualize the data and highlight differences between failed and intact jobs.
 Outputs
