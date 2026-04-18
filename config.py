@@ -1,8 +1,8 @@
 import sys
 sys.path.append('..')
 
-directory_intact_jobs = "D:/2025/DataAnalysisShockMEMSSensor/DataWOFail/AllJobsData"
-directory_failed_jobs = "D:/2025/DataAnalysisShockMEMSSensor/Data/AllJobsData"
+directory_intact_jobs = "*/DataWOFail/AllJobsData"
+directory_failed_jobs = "*/Data/AllJobsData"
 
 job_ids_motor_turbine = {
     'motor': ['O.1048592.41-7','O.1048592.59-6','O.1048592.107-3','O.1048592.107-6',
