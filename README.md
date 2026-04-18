@@ -1,152 +1,82 @@
-# MEMS Shock & Vibration Analysis — Failed vs. Intact Jobs (Motor & Turbine)
+## MEMS_sensor_failure_analysis_for_motor_n_turbine_drive
+This script performs data analysis and visualization for vibration (VIB_LAT), shock (SHK_LAT), and nitrogen flow rate (N2_RATE) data from multiple jobs. The jobs are categorized into failed jobs and intact jobs, and further grouped into motor and turbine categories. The script processes the data, performs activity-wise analysis, and generates various plots to visualize the results.
 
-Analysis of lateral vibration and shock data from MEMS sensors across failed and intact drilling jobs, categorised by drive type (motor/turbine).
+Key Steps in the Script
+### Importing Libraries:
 
----
+Libraries such as pandas, matplotlib, numpy, and re are imported for data manipulation, visualization, and regular expression matching.
+Loading and Categorizing Data:
 
-## Repository Structure
+CSV files for failed and intact jobs are loaded from specified directories.
+Job IDs are extracted using regular expressions and categorized into motor and turbine groups.
+Data Cleaning and Indexing:
 
-```
-memsFailJobsMotorTurbine/
-├── config.py                              # Constants: directories, job IDs, categories, activities, columns
-├── data_loader.py                         # CSV loading, cleaning, partitioning, activity extraction
-├── snv_analysis.py                        # S&V analysis functions and data aggregation
-├── plotting.py                            # All plotting functions
-├── main.py                                # Executable entry point
-└── memsWnWOFailJobsIncludeMotorTurbine.py # Original monolithic script (reference)
-```
+The data is cleaned by converting columns to numeric values and handling invalid entries.
+Time columns are converted to datetime format and set as the index.
+### Partitioning Data:
 
----
+The data is partitioned into activities (e.g., "On Bottom Drilling", "Pull Test") using a partitioning function.
+Jobs that cannot be partitioned are excluded from further analysis.
+Activity-Wise Analysis:
 
-## Data
+For each activity, vibration and shock data are extracted and filtered based on thresholds (e.g., VIB_LAT < 100, SHK_LAT < 700).
+Mean, median, and max values are calculated for each activity and job.
+Data Grouping:
 
-Two sets of CSV files are expected, each containing concatenated time-series sensor data per job:
+Vibration and shock data are grouped into predefined ranges (e.g., 0-10, 10-15) for both failed and intact jobs.
+Separate counts are maintained for motor and turbine jobs.
+Visualization:
 
-| Job Type     | Directory                                                        |
-|--------------|------------------------------------------------------------------|
-| Failed Jobs  | `D:/2025/DataAnalysisShockMEMSSensor/Data/AllJobsData`           |
-| Intact Jobs  | `D:/2025/DataAnalysisShockMEMSSensor/DataWOFail/AllJobsData`     |
+### Bar Plots:
+Vibration and shock counts for different ranges are plotted as bar charts.
+Percentage distributions of vibration and shock levels are also visualized.
+Scatter Plots:
+Scatter plots are created to show vibration and shock counts for motor and turbine jobs across different ranges.
+Box Plots:
+Box plots are generated for N2_RATE, VIB_LAT, and SHK_LAT for failed and intact jobs.
+Histograms:
+Histograms are plotted for vibration and shock data across all jobs.
+### Whole Run Analysis:
 
-Expected filename format: `O.<id>_concat_data.csv`
+Vibration and shock data for the entire run are combined for failed and intact jobs.
+Histograms and box plots are generated to visualize the overall distribution.
+Key Features of the Script
+Categorization:
 
-### Columns Used
+Jobs are categorized into failed and intact jobs, and further into motor and turbine groups.
+### Activity-Wise Analysis:
 
-| Column     | Description                  |
-|------------|------------------------------|
-| `TIME`     | Timestamp (from `DateTime`)  |
-| `BVEL`     | Bit velocity                 |
-| `CT_WGT`   | Coiled tubing weight         |
-| `DEPT`     | Depth                        |
-| `HDTH`     | Hole depth                   |
-| `FLWI`     | Flow rate in                 |
-| `APRS_RAW` | Annulus pressure (raw)       |
-| `IPRS_RAW` | Internal pressure (raw)      |
-| `N2_RATE`  | Nitrogen flow rate           |
-| `VIB_LAT`  | Lateral vibration [g]        |
-| `SHK_LAT`  | Lateral shock [g]            |
+The script performs detailed analysis for specific activities (e.g., "Pull Test", "Wiper Trip") to understand vibration and shock behavior during these activities.
+Threshold Filtering:
 
----
+Data is filtered based on thresholds to exclude invalid or extreme values (e.g., VIB_LAT < 100, SHK_LAT < 700).
+Statistical Analysis:
 
-## Job Classification
+Mean, median, and max values are calculated for vibration and shock data for each activity and job.
+#### Visualization:
 
-Jobs are labelled with `[M]` (motor) or `[T]` (turbine) based on predefined job ID lists in `config.py`.
+The script generates a variety of plots (bar, scatter, box, and histogram) to visualize the data and highlight differences between failed and intact jobs.
+Outputs
+Bar Plots:
 
----
+Vibration and shock counts for different ranges.
+Percentage distributions of vibration and shock levels.
+Scatter Plots:
 
-## Activities Analysed
+Vibration and shock counts for motor and turbine jobs across different ranges.
+Box Plots:
 
-- On Bottom Drilling
-- Pull Test
-- Wiper Trip
-- Trip In Run
-- Trip Out Run
+Distribution of N2_RATE, VIB_LAT, and SHK_LAT for failed and intact jobs.
+Histograms:
 
-Partitioning is performed using `ctd_partitioner`.
+Overall distribution of vibration and shock data for all jobs.
+Summary Statistics:
 
----
+Mean, median, and max values for vibration and shock data for each activity and job.
+Applications
+This script is useful for:
 
-## Modules
-
-### `config.py`
-Centralised configuration — data directories, job ID motor/turbine mapping, job categories, activity list, and column names.
-
-### `data_loader.py`
-
-| Function                    | Description                                              |
-|-----------------------------|----------------------------------------------------------|
-| `load_csv_files()`          | Globs CSV files from failed and intact job directories   |
-| `extract_and_label_job_ids()` | Parses job IDs from filenames and appends `[M]`/`[T]` label |
-| `clean_data()`              | Parses datetime, selects columns, coerces to numeric     |
-| `partition_all_jobs()`      | Runs `ctd_partitioner` on each job, handles failures     |
-| `get_jobs_activities()`     | Extracts unique activities per job from partition data   |
-
-### `snv_analysis.py`
-
-| Function                        | Description                                                        |
-|---------------------------------|--------------------------------------------------------------------|
-| `mems_SnV_analysis_alljobs()`   | Extracts VIB/SHK data per activity, applies outlier masking        |
-| `mean_median_max_values()`      | Computes mean, median, max per activity per failed job             |
-| `build_activity_dicts()`        | Builds per-job, per-activity VIB/SHK data dictionaries            |
-| `aggregate_activity_data()`     | Aggregates VIB/SHK across all jobs per activity                   |
-| `aggregate_whole_run_data()`    | Concatenates all activity data into whole-run arrays              |
-
-### `plotting.py`
-
-| Function                            | Description                                                   |
-|-------------------------------------|---------------------------------------------------------------|
-| `plot_mean_median_max_bars()`       | Bar chart of mean/median/max VIB & SHK per failed job        |
-| `plot_activity_boxplots()`          | Boxplots of VIB & SHK per activity (failed vs. intact)       |
-| `plot_shock_histogram_bar()`        | Count and percentage bar charts for shock levels             |
-| `plot_shock_histogram_combined()`   | Histogram + boxplot overlay for shock                        |
-| `plot_vib_histogram_bar()`          | Count and percentage bar charts for vibration levels         |
-| `plot_vib_histogram_combined()`     | Histogram + boxplot overlay for vibration                    |
-| `plot_vib_level_count_bars()`       | Bar chart of VIB count above thresholds (10, 12.5, 15 g)    |
-| `plot_shk_level_count_bars()`       | Bar chart of SHK count above threshold (500 g)              |
-| `plot_vib_scatter_motor_turbine()`  | Scatter plot of VIB counts by range, split by drive type     |
-| `plot_shock_scatter_motor_turbine()`| Scatter plot of SHK counts by range, split by drive type     |
-| `plot_n2_vib_shk_boxplots()`        | Boxplots of N2 rate and shock per job                        |
-
----
-
-## Requirements
-
-```
-pandas
-numpy
-matplotlib
-ctd_partitioner
-IPython
-```
-
-Install dependencies:
-```bash
-pip install pandas numpy matplotlib ipython
-```
-
-> `ctd_partitioner` is an internal package — ensure it is available on the Python path.
-
----
-
-## Usage
-
-```bash
-python main.py
-```
-
-The pipeline runs in this order:
-1. Load CSV files
-2. Extract and label job IDs
-3. Clean data
-4. Partition by activity
-5. Extract valid activities
-6. Run S&V analysis
-7. Generate all plots
-
----
-
-## Outlier Thresholds Applied
-
-| Parameter | Valid Range |
-|-----------|-------------|
-| `VIB_LAT` | 0 – 100 g   |
-| `SHK_LAT` | 0 – 600 g   |
+Failure Analysis: Identifying patterns in vibration and shock data that differentiate failed jobs from intact jobs.
+Activity Monitoring: Understanding how vibration and shock levels vary across different activities.
+Data Visualization: Providing clear visual insights into the behavior of vibration, shock, and nitrogen flow rate data.
+Predictive Maintenance: Highlighting potential issues in motor and turbine jobs based on vibration
