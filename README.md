@@ -43,8 +43,8 @@ Before running, place your CSV files in the following directories (configured in
 
 | Job Type    | Directory Path                                                   |
 |-------------|------------------------------------------------------------------|
-| Failed Jobs | `D:/2025/DataAnalysisShockMEMSSensor/Data/AllJobsData`           |
-| Intact Jobs | `D:/2025/DataAnalysisShockMEMSSensor/DataWOFail/AllJobsData`     |
+| Failed Jobs | `*/Data/AllJobsData`           |
+| Intact Jobs | `*/DataWOFail/AllJobsData`     |
 
 ### Expected Filename Format
 ```
@@ -85,8 +85,8 @@ All key settings are centralised here. Modify this file to adapt the analysis to
 
 ### Motor Jobs (8)
 ```
-O.1048592.41-7, O.1048592.59-6, O.1048592.107-3, O.1048592.107-6,
-O.1048592.107-7, O.1048592.107-9, O.1048592.107-10, O.1048592.133-1
+O.xxxxxxxx.xx-1x, O.xxxxxxxx.xx-1x, O.xxxxxxxx.xx-1x9, O.xxxxxxxx.xx-1x,
+O.xxxxxxxx.xx-1x, O.xxxxxxxx.xx-1x,O.xxxxxxxx.xx-1x, O.xxxxxxxx.xx-1x6, O.xxxxxxxx.xx-1x
 ```
 
 ### Turbine Jobs (9)
