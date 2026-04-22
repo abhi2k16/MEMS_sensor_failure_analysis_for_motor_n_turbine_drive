@@ -91,8 +91,8 @@ O.1048592.107-7, O.1048592.107-9, O.1048592.107-10, O.1048592.133-1
 
 ### Turbine Jobs (9)
 ```
-O.1048592.72-18, O.1048592.99-5, O.1048592.59-9, O.1048592.59-10,
-O.1048592.110-2, O.1048592.110-4, O.1048592.110-5, O.1048592.110-6, O.1048592.133-5
+O.xxxxxxxx.xx-1x, O.xxxxxxxx.xx-1x, O.xxxxxxxx.xx-1x9, O.xxxxxxxx.xx-1x,
+O.xxxxxxxx.xx-1x, O.xxxxxxxx.xx-1x,O.xxxxxxxx.xx-1x, O.xxxxxxxx.xx-1x6, O.xxxxxxxx.xx-1x
 ```
 
 ---
